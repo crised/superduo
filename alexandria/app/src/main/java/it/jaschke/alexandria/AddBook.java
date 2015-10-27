@@ -103,6 +103,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
+                Intent intent = new Intent(getContext(), SimpleScannerActivity.class);
+                startActivity(intent);
+
             }
         });
 
