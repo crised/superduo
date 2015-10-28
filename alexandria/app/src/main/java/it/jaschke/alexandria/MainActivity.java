@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,8 @@ import it.jaschke.alexandria.api.Callback;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
 
+
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -34,22 +37,46 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReciever;
 
+
+
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            String esn = b.
+                    getString(getResources().getString(R.string.scanned_esn_bundle_key),
+                            "");
+
+
+            if (esn != null && !esn.isEmpty()) {
+                Log.d(LOG_TAG, esn);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment addBook = new AddBook();
+                addBook.setArguments(b);
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, addBook)
+                        .addToBackStack((String) title)
+                        .commit();
+            }
+        }
+
+
         IS_TABLET = isTablet();
-        if(IS_TABLET){
+        if (IS_TABLET) {
             setContentView(R.layout.activity_main_tablet);
-        }else {
+        } else {
             setContentView(R.layout.activity_main);
         }
 
         messageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever,filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever, filter);
 
         navigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -57,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         // Set up the drawer.
         navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
@@ -66,13 +93,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
 
-        switch (position){
+        switch (position) {
             default:
             case 0:
                 nextFragment = new ListOfBooks();
                 break;
             case 1:
                 nextFragment = new AddBook();
+
                 break;
             case 2:
                 nextFragment = new About();
@@ -141,7 +169,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         fragment.setArguments(args);
 
         int id = R.id.container;
-        if(findViewById(R.id.right_container) != null){
+        if (findViewById(R.id.right_container) != null) {
             id = R.id.right_container;
         }
         getSupportFragmentManager().beginTransaction()
@@ -154,13 +182,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private class MessageReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra(MESSAGE_KEY)!=null){
+            if (intent.getStringExtra(MESSAGE_KEY) != null) {
                 Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    public void goBack(View view){
+    public void goBack(View view) {
         getSupportFragmentManager().popBackStack();
     }
 
@@ -172,7 +200,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()<2){
+        if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
             finish();
         }
         super.onBackPressed();
