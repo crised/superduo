@@ -127,12 +127,14 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
         //BarCodeID Functionality
         Bundle b = getArguments();
-        Log.d(LOG_TAG,"BarCode");
+        Log.d(LOG_TAG, "BarCode");
         if (b != null) {
-            Log.d(LOG_TAG,"GotSomething");
+            Log.d(LOG_TAG, "GotSomething");
             String esn = b.getString(getResources().getString(R.string.scanned_esn_bundle_key));
             if (esn != null) ean.setText(esn);
         }
+
+
 
 
         return rootView;
@@ -141,6 +143,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private void restartLoader() {
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
+
 
     @Override
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -209,5 +212,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
+    }
+
+    public void setText() {
+        Log.d(LOG_TAG, "Logging!");
     }
 }

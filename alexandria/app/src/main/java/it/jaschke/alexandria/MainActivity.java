@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReciever;
 
+    private static final int BAR_CODE_POSITION = 5;
 
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
@@ -45,28 +47,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            String esn = b.
-                    getString(getResources().getString(R.string.scanned_esn_bundle_key),
-                            "");
-
-
-            if (esn != null && !esn.isEmpty()) {
-                Log.d(LOG_TAG, esn);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                Fragment addBook = new AddBook();
-                addBook.setArguments(b);
-
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, addBook)
-                        .addToBackStack((String) title)
-                        .commit();
-            }
-        }
-
-
         IS_TABLET = isTablet();
         if (IS_TABLET) {
             setContentView(R.layout.activity_main_tablet);
@@ -92,24 +72,31 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
+        String tag;
+        int newPosition = hackPosition(position);
 
-        switch (position) {
+        switch (newPosition) {
             default:
-            case 0:
                 nextFragment = new ListOfBooks();
+                tag = getResources().getString(R.string.list_book_fragment_tag);
                 break;
             case 1:
                 nextFragment = new AddBook();
-
+                tag = getResources().getString(R.string.add_book_fragment_tag);
                 break;
             case 2:
                 nextFragment = new About();
+                tag = getResources().getString(R.string.about_fragment_tag);
                 break;
+            case BAR_CODE_POSITION:
+                nextFragment = new AddBook();
+                nextFragment.setArguments(getIntent().getExtras());
+                tag = getResources().getString(R.string.add_book_fragment_tag);
 
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, nextFragment)
+                .replace(R.id.container, nextFragment, tag)
                 .addToBackStack((String) title)
                 .commit();
     }
@@ -206,5 +193,22 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onBackPressed();
     }
 
+    private int hackPosition(int position) {
 
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            String esn = b.
+                    getString(getResources().
+                            getString(R.string.scanned_esn_bundle_key), "");
+            if (esn != null && !esn.isEmpty()) position = BAR_CODE_POSITION;
+
+        }
+        return position;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }
