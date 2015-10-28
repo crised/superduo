@@ -33,6 +33,42 @@
         During the off season, fake data will be added to the app.
     </string>
     <string name="widget_text">This is a widget probably.</string>
-    <string name="api_key"></string>
+    <string name="api_key">1b98d423321b4da4ab095c90bada9058</string>
     <string name="dummy_data">{\"timeFrameStart\":\"2015-06-18\",\"timeFrameEnd\":\"2015-06-19\",\"count\":1,\"fixtures\":[{\"_links\":{\"self\":{\"href\":\"http://api.football-data.org/alpha/fixtures/140514\"},\"soccerseason\":{\"href\":\"http://api.football-data.org/alpha/soccerseasons/357\"},\"homeTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/275\"},\"awayTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/263\"}},\"date\":\"2015-06-19T22:00:00Z\",\"status\":\"FINISHED\",\"matchday\":42,\"homeTeamName\":\"TESTING1\",\"awayTeamName\":\"TESTING2\",\"result\":{\"goalsHomeTeam\":2,\"goalsAwayTeam\":4}},{\"_links\":{\"self\":{\"href\":\"http://api.football-data.org/alpha/fixtures/140514\"},\"soccerseason\":{\"href\":\"http://api.football-data.org/alpha/soccerseasons/357\"},\"homeTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/275\"},\"awayTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/263\"}},\"date\":\"2015-06-19T22:00:00Z\",\"status\":\"FINISHED\",\"matchday\":42,\"homeTeamName\":\"TESTING1\",\"awayTeamName\":\"TESTING2\",\"result\":{\"goalsHomeTeam\":2,\"goalsAwayTeam\":4}},{\"_links\":{\"self\":{\"href\":\"http://api.football-data.org/alpha/fixtures/140514\"},\"soccerseason\":{\"href\":\"http://api.football-data.org/alpha/soccerseasons/357\"},\"homeTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/275\"},\"awayTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/263\"}},\"date\":\"2015-06-19T22:00:00Z\",\"status\":\"FINISHED\",\"matchday\":42,\"homeTeamName\":\"TESTING1\",\"awayTeamName\":\"TESTING2\",\"result\":{\"goalsHomeTeam\":2,\"goalsAwayTeam\":4}},{\"_links\":{\"self\":{\"href\":\"http://api.football-data.org/alpha/fixtures/140514\"},\"soccerseason\":{\"href\":\"http://api.football-data.org/alpha/soccerseasons/357\"},\"homeTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/275\"},\"awayTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/263\"}},\"date\":\"2015-06-19T22:00:00Z\",\"status\":\"FINISHED\",\"matchday\":42,\"homeTeamName\":\"TESTING1\",\"awayTeamName\":\"TESTING2\",\"result\":{\"goalsHomeTeam\":2,\"goalsAwayTeam\":4}},{\"_links\":{\"self\":{\"href\":\"http://api.football-data.org/alpha/fixtures/140514\"},\"soccerseason\":{\"href\":\"http://api.football-data.org/alpha/soccerseasons/357\"},\"homeTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/275\"},\"awayTeam\":{\"href\":\"http://api.football-data.org/alpha/teams/263\"}},\"date\":\"2015-06-19T22:00:00Z\",\"status\":\"FINISHED\",\"matchday\":42,\"homeTeamName\":\"TESTING1\",\"awayTeamName\":\"TESTING2\",\"result\":{\"goalsHomeTeam\":2,\"goalsAwayTeam\":4}}]}</string>
+
+    <!--FetchService-->
+    <string name="fetch_service_n2" translatable="false">n2</string>
+    <string name="fetch_service_p2" translatable="false">p2</string>
+    <string name="fetch_service_base_url" translatable="false">http://api.football-data.org/alpha/fixtures</string>
+    <string name="fetch_service_query_time_frame" translatable="false">timeFrame</string>
+    <string name="fetch_service_request_method" translatable="false">GET</string>
+    <string name="fetch_service_request_property" translatable="false">X-Auth-Token</string>
+    <string name="fetch_service_bundesliga_1" translatable="false">394</string>
+    <string name="fetch_service_bundesliga_2" translatable="false">395</string>
+    <string name="fetch_service_premier_league" translatable="false">398</string>
+    <string name="fetch_service_primera_division" translatable="false">399</string>
+    <string name="fetch_service_serie_a" translatable="false">401</string>
+    <string name="fetch_service_season_link" translatable="false">http://api.football-data.org/alpha/soccerseasons/</string>
+    <string name="fetch_service_match_link" translatable="false">http://api.football-data.org/alpha/soccerseasons/</string>
+    <string name="fetch_service_fixtures" translatable="false">fixtures</string>
+    <string name="fetch_service_links" translatable="false">_links</string>
+    <string name="fetch_service_soccer_season" translatable="false">soccerseason</string>
+    <string name="fetch_service_self" translatable="false">self</string>
+    <string name="fetch_service_match_date" translatable="false">date</string>
+    <string name="fetch_service_home_team" translatable="false">homeTeamName</string>
+    <string name="fetch_service_away_team" translatable="false">awayTeamName</string>
+    <string name="fetch_service_result" translatable="false">result</string>
+    <string name="fetch_service_home_goals" translatable="false">goalsHomeTeam</string>
+    <string name="fetch_service_away_goals" translatable="false">goalsAwayTeam</string>
+    <string name="fetch_service_match_day" translatable="false">matchday</string>
+
+    <!--MainActivity-->
+    <string name="main_activity_pager_current_key" translatable="false">pager_current</string>
+    <string name="main_activity_selected_match_key" translatable="false">selected_match</string>
+    <string name="main_activity_pager" translatable="false">m_pager_fragment</string>
+
+    <string name="pager_fragment_date_format_1">yyyy-MM-dd</string>
+    <string name="pager_fragment_date_format_2">EEEE</string>
+
+
 </resources>
