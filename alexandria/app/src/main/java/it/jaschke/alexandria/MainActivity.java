@@ -42,6 +42,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public static final int ACTIVITY_NORMAL_STATUS = 1;
     public static final int ACTIVITY_BAR_CODE_STATUS = 2;
+    public static final int ACTIVITY_NO_NET_STATUS = 3;
 
     private String mBarCodeEsn;
 

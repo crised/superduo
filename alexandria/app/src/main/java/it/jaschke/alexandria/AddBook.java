@@ -170,6 +170,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             return;
         }
 
+        //Could add NoNet view here!
+
         String bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
         ((TextView) rootView.findViewById(R.id.bookTitle)).setText(bookTitle);
 
