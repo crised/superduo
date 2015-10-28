@@ -35,6 +35,9 @@
     <!--Fragment Tags-->
     <string name="list_book_fragment_tag">list_book_tag</string>
     <string name="add_book_fragment_tag">add_book_tag</string>
-    <string name="about_fragment_tag">about_tag</string>
+    <string name="about_fragment_tag" translatable="false">about_tag</string>
+
+    <!--prefs-->
+    <string name="app_status_key" translatable="false">status_key</string>
 
 </resources>

@@ -29,6 +29,9 @@ import android.widget.ListView;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+
     /**
      * Remember the position of the selected item.
      */
@@ -58,6 +61,8 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+
+
     public NavigationDrawerFragment() {
     }
 
@@ -73,10 +78,18 @@ public class NavigationDrawerFragment extends Fragment {
 
 
         if (savedInstanceState != null) {
+            Log.d(LOG_TAG,"Saved InstanceState");
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }else{
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int state = prefs.getInt(getResources().getString(R.string.app_status_key), 0);
+            if(state == MainActivity.ACTIVITY_BAR_CODE_STATUS){
+                selectItem(1); //fix this magic number
+                Utility.setNormalAppStatus(getContext());
+                return;
+            }
             mCurrentSelectedPosition = Integer.parseInt(prefs.getString("pref_startFragment","0"));
             selectItem(mCurrentSelectedPosition);
         }

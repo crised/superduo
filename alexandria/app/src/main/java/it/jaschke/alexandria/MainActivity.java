@@ -12,7 +12,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private NavigationDrawerFragment navigationDrawerFragment;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -38,15 +37,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReciever;
 
-    private static final int BAR_CODE_POSITION = 5;
-
-
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+
+    public static final int ACTIVITY_NORMAL_STATUS = 1;
+    public static final int ACTIVITY_BAR_CODE_STATUS = 2;
+
+    private String mBarCodeEsn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkIfComingFromBarCodeActivity();
         IS_TABLET = isTablet();
         if (IS_TABLET) {
             setContentView(R.layout.activity_main_tablet);
@@ -58,13 +61,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever, filter);
 
-        navigationDrawerFragment = (NavigationDrawerFragment)
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         title = getTitle();
 
         // Set up the drawer.
-        navigationDrawerFragment.setUp(R.id.navigation_drawer,
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        //if (mNavigationDrawerFragment != null & mIsBarCode) mNavigationDrawerFragment.selectItem(1);
+
+
     }
 
     @Override
@@ -73,10 +79,30 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
         String tag;
-        int newPosition = hackPosition(position);
 
-        switch (newPosition) {
-            default:
+
+        if (Utility.getBarCodeAppStatus(this) == ACTIVITY_BAR_CODE_STATUS) {
+
+            AddBook next = new AddBook();
+            tag = getResources().getString(R.string.add_book_fragment_tag);
+            Bundle nB = new Bundle();
+            nB.putString(getResources().getString(R.string.scanned_esn_bundle_key), mBarCodeEsn);
+            next.setArguments(nB);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, next, tag)
+                    .addToBackStack((String) title)
+                    .commit();
+
+
+            return;
+
+        }
+
+
+        //Define this integer positions!
+        switch (position) {
+            default://case 0
                 nextFragment = new ListOfBooks();
                 tag = getResources().getString(R.string.list_book_fragment_tag);
                 break;
@@ -88,10 +114,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 nextFragment = new About();
                 tag = getResources().getString(R.string.about_fragment_tag);
                 break;
-            case BAR_CODE_POSITION:
-                nextFragment = new AddBook();
-                nextFragment.setArguments(getIntent().getExtras());
-                tag = getResources().getString(R.string.add_book_fragment_tag);
+
 
         }
 
@@ -115,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!navigationDrawerFragment.isDrawerOpen()) {
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
@@ -193,22 +216,20 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onBackPressed();
     }
 
-    private int hackPosition(int position) {
-
+    private void checkIfComingFromBarCodeActivity() {
         Bundle b = getIntent().getExtras();
+
         if (b != null) {
             String esn = b.
                     getString(getResources().
                             getString(R.string.scanned_esn_bundle_key), "");
-            if (esn != null && !esn.isEmpty()) position = BAR_CODE_POSITION;
-
+            if (esn != null && !esn.isEmpty()) {
+                mBarCodeEsn = esn;
+                getIntent().removeExtra(getResources().
+                        getString(R.string.scanned_esn_bundle_key));
+                Utility.setBarCodeAppStatus(this);
+            }
+            return;
         }
-        return position;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 }

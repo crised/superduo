@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".BarCodeActivity"/>
         <activity
             android:label="@string/title_activity_settings"
@@ -32,9 +31,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
-
-
         <provider
             android:name=".data.BookProvider"
             android:authorities="it.jaschke.alexandria"
