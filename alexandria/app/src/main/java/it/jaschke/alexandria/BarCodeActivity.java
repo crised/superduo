@@ -52,16 +52,14 @@ public class BarCodeActivity extends Activity implements ZXingScannerView.Result
 
     @Override
     public void handleResult(Result rawResult) {
-        // Do something with the result here
-        Log.d(LOG_TAG, rawResult.getText()); // Prints scan results
-        Log.d(LOG_TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
         Intent intent = new Intent(this, MainActivity.class);
         Bundle b = new Bundle();
         b.putString(getResources().getString(R.string.scanned_esn_bundle_key), rawResult.getText()); //Your id
         intent.putExtras(b); //Put your id to your next Intent
-        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-
+        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM,
+                getResources().getInteger(R.integer.volume));
+        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,
+                getResources().getInteger(R.integer.duration));
         startActivity(intent);
         finish();
 

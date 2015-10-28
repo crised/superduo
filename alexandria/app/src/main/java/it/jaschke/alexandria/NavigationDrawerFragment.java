@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,15 +21,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import static it.jaschke.alexandria.MainActivity.FRAGMENT_ADD_BOOKS;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
-
-    public static final String LOG_TAG = MainActivity.class.getSimpleName();
-
 
     /**
      * Remember the position of the selected item.
@@ -62,7 +60,6 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
 
 
-
     public NavigationDrawerFragment() {
     }
 
@@ -76,21 +73,19 @@ public class NavigationDrawerFragment extends Fragment {
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
 
-
         if (savedInstanceState != null) {
-            Log.d(LOG_TAG,"Saved InstanceState");
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
-        }else{
+        } else {
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             int state = prefs.getInt(getResources().getString(R.string.app_status_key), 0);
-            if(state == MainActivity.ACTIVITY_BAR_CODE_STATUS){
-                selectItem(1); //fix this magic number
+            if (state == MainActivity.ACTIVITY_BAR_CODE_STATUS) {
+                selectItem(FRAGMENT_ADD_BOOKS);
                 Utility.setNormalAppStatus(getContext());
                 return;
             }
-            mCurrentSelectedPosition = Integer.parseInt(prefs.getString("pref_startFragment","0"));
+            mCurrentSelectedPosition = Integer.parseInt(prefs.getString("pref_startFragment", "0"));
             selectItem(mCurrentSelectedPosition);
         }
 

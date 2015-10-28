@@ -19,11 +19,22 @@ import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
 
+import static it.jaschke.alexandria.R.integer.duration;
+
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
 
+    public static final int ACTIVITY_NORMAL_STATUS = 1;
+    public static final int ACTIVITY_BAR_CODE_STATUS = 2;
+    public static final int ACTIVITY_NO_NET_STATUS = 3;
 
-    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static final int FRAGMENT_LIST_OF_BOOKS = 0;
+    public static final int FRAGMENT_ADD_BOOKS = 1;
+    public static final int FRAGMENT_ABOUT = 2;
+
+    private static final int NUMBER_OF_FRAGMENTS = 2;
+
+    public static boolean sIsTablet = false; //may not be static.
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -33,17 +44,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence title;
-    public static boolean IS_TABLET = false;
-    private BroadcastReceiver messageReciever;
-
-    public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
-    public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
-
-    public static final int ACTIVITY_NORMAL_STATUS = 1;
-    public static final int ACTIVITY_BAR_CODE_STATUS = 2;
-    public static final int ACTIVITY_NO_NET_STATUS = 3;
-
+    private CharSequence mTitle;
+    private BroadcastReceiver mMessageReciever;
     private String mBarCodeEsn;
 
     @Override
@@ -51,25 +53,24 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onCreate(savedInstanceState);
 
         checkIfComingFromBarCodeActivity();
-        IS_TABLET = isTablet();
-        if (IS_TABLET) {
+        sIsTablet = isTablet();
+        if (sIsTablet) {
             setContentView(R.layout.activity_main_tablet);
         } else {
             setContentView(R.layout.activity_main);
         }
 
-        messageReciever = new MessageReciever();
-        IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever, filter);
+        mMessageReciever = new MessageReciever();
+        IntentFilter filter = new IntentFilter(getString(R.string.message_event));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReciever, filter);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        title = getTitle();
+        mTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        //if (mNavigationDrawerFragment != null & mIsBarCode) mNavigationDrawerFragment.selectItem(1);
 
 
     }
@@ -81,9 +82,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         Fragment nextFragment;
         String tag;
 
-
         if (Utility.getBarCodeAppStatus(this) == ACTIVITY_BAR_CODE_STATUS) {
-
             AddBook next = new AddBook();
             tag = getResources().getString(R.string.add_book_fragment_tag);
             Bundle nB = new Bundle();
@@ -92,48 +91,42 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
             fragmentManager.beginTransaction()
                     .replace(R.id.container, next, tag)
-                    .addToBackStack((String) title)
+                    .addToBackStack((String) mTitle)
                     .commit();
-
-
             return;
-
         }
 
-
-        //Define this integer positions!
         switch (position) {
-            default://case 0
+            default:
                 nextFragment = new ListOfBooks();
                 tag = getResources().getString(R.string.list_book_fragment_tag);
                 break;
-            case 1:
+            case FRAGMENT_ADD_BOOKS:
                 nextFragment = new AddBook();
                 tag = getResources().getString(R.string.add_book_fragment_tag);
                 break;
-            case 2:
+            case FRAGMENT_ABOUT:
                 nextFragment = new About();
                 tag = getResources().getString(R.string.about_fragment_tag);
                 break;
-
 
         }
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment, tag)
-                .addToBackStack((String) title)
+                .addToBackStack((String) mTitle)
                 .commit();
     }
 
     public void setTitle(int titleId) {
-        title = getString(titleId);
+        mTitle = getString(titleId);
     }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(title);
+        actionBar.setTitle(mTitle);
     }
 
 
@@ -167,7 +160,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReciever);
         super.onDestroy();
     }
 
@@ -185,7 +178,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(id, fragment)
-                .addToBackStack("Book Detail")
+                .addToBackStack(getString(R.string.book_detail))
                 .commit();
 
     }
@@ -193,8 +186,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private class MessageReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getStringExtra(MESSAGE_KEY) != null) {
-                Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
+            if (intent.getStringExtra(getString(R.string.message_key)) != null) {
+                Toast.makeText(MainActivity.this,
+                        intent.getStringExtra(getString(R.string.message_key)),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -211,7 +206,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
+        if (getSupportFragmentManager().getBackStackEntryCount() < NUMBER_OF_FRAGMENTS) {
             finish();
         }
         super.onBackPressed();

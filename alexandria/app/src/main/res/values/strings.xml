@@ -30,14 +30,38 @@
     The original version of this app was built by Sascha Jaschke, and a modified version is given to students in the Udacity Android Nanodegree program. </string>
 
     <!--Added by Crised-->
-    <string name="scanned_esn_bundle_key">esn</string>
+    <string name="error" translatable="false">Error </string>
+    <string name="scanned_esn_bundle_key" translatable="false">esn</string>
 
     <!--Fragment Tags-->
-    <string name="list_book_fragment_tag">list_book_tag</string>
-    <string name="add_book_fragment_tag">add_book_tag</string>
+    <string name="list_book_fragment_tag" translatable="false">list_book_tag</string>
+    <string name="add_book_fragment_tag" translatable="false">add_book_tag</string>
     <string name="about_fragment_tag" translatable="false">about_tag</string>
 
     <!--prefs-->
     <string name="app_status_key" translatable="false">status_key</string>
+
+    <!--MainActivity-->
+    <string name="message_event" translatable="false">MESSAGE_EVENT</string>
+    <string name="message_key" translatable="false">MESSAGE_EXTRA</string>
+    <string name="book_detail" tranlatable="false">Book Detail</string>
+
+    <!--BookService-->
+    <string name="bookservice_base_url"
+            translatable="false">https://www.googleapis.com/books/v1/volumes?</string>
+    <string name="bookservice_no_book_found">No Book Found</string>
+    <string name="bookservice_query_param" translatable="false">q</string>
+    <string name="bookservice_isbn_param" translatable="false">isbn:</string>
+    
+    <!--AddBook-->
+    <string name="addbook_ean_content" translatable="false">eanContent</string>
+    <string name="adbook_esn_prefix" translatable="false">978</string>
+    <!--Unused
+    <string name="addbook_scan_format" translatable="false">scanFormat</string>
+    <string name="addbook_scan_contents" translatable="false">scanContents</string>
+    <string name="addbook_scan_format_">Format:</string>
+    <string name="addbook_scan_contents_">Contents:</string>-->
+
+    <string name="bookdetail_intent_type" translatable="false">EAN</string>
 
 </resources>

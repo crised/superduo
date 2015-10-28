@@ -53,6 +53,7 @@ public class BookService extends IntentService {
             } else if (DELETE_BOOK.equals(action)) {
                 final String ean = intent.getStringExtra(EAN);
                 deleteBook(ean);
+
             }
         }
     }
@@ -102,10 +103,10 @@ public class BookService extends IntentService {
         String bookJsonString = null;
 
         try {
-            final String FORECAST_BASE_URL = "https://www.googleapis.com/books/v1/volumes?";
-            final String QUERY_PARAM = "q";
+            final String FORECAST_BASE_URL = getString(R.string.bookservice_base_url);
+            final String QUERY_PARAM = getString(R.string.bookservice_query_param);
 
-            final String ISBN_PARAM = "isbn:" + ean;
+            final String ISBN_PARAM = getString(R.string.bookservice_isbn_param) + ean;
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, ISBN_PARAM)
@@ -168,9 +169,11 @@ public class BookService extends IntentService {
             if (bookJson.has(ITEMS)) {
                 bookArray = bookJson.getJSONArray(ITEMS);
             } else {
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY, getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                Intent messageIntent = new Intent(getString(R.string.message_event));
+                messageIntent.putExtra(getString(R.string.message_key),
+                        getString(R.string.bookservice_no_book_found));
+                LocalBroadcastManager
+                        .getInstance(getApplicationContext()).sendBroadcast(messageIntent);
                 return;
             }
 
@@ -203,7 +206,7 @@ public class BookService extends IntentService {
             }
 
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Error ", e);
+            Log.e(LOG_TAG, getString(R.string.error), e);
         }
     }
 

@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="isbn_length">10</integer>
+    <integer name="esn_length">13</integer>
+    <integer name="volume">100</integer>
+    <integer name="duration">200</integer>
 </resources>

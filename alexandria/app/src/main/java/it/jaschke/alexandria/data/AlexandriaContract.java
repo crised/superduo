@@ -9,9 +9,10 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-public class AlexandriaContract{
+public class AlexandriaContract {
 
     public static final String CONTENT_AUTHORITY = "it.jaschke.alexandria";
+
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
