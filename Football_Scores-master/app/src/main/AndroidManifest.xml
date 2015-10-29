@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="barqsoft.footballscores"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="barqsoft.footballscores"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission
         android:name="android.permission.INTERNET"
@@ -36,6 +37,16 @@
                 android:value="barqsoft.footballscores.MainActivity"/>
         </activity>
         <service android:name=".service.FetchService"/>
+        <!-- Today Widget -->
+        <receiver
+            android:name=".widget.TodayWidgetProvider"
+            android:label="@string/widget_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_today"/>
+        </receiver>
     </application>
-
 </manifest>
