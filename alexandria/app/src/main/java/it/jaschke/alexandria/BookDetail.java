@@ -101,7 +101,8 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         shareIntent.setType(getString(R.string.bookdetail_intent_type));
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + mBookTitle);
-        mShareActionProvider.setShareIntent(shareIntent);
+        if (mShareActionProvider != null)
+            mShareActionProvider.setShareIntent(shareIntent);
 
         String bookSubTitle = data.
                 getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
@@ -112,6 +113,11 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
         String[] authorsArr = authors.split(",");
+        if (authorsArr == null) {
+            authorsArr = new String[1];
+            authorsArr[0] = "";
+
+        }
         ((TextView) mRootView.findViewById(R.id.authors)).setLines(authorsArr.length);
         ((TextView) mRootView.findViewById(R.id.authors)).setText(authors.replace(",", "\n"));
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
