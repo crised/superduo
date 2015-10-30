@@ -17,7 +17,6 @@ import barqsoft.footballscores.MainActivity;
 public class TodayWidgetProvider extends AppWidgetProvider {
 
 
-
     //Gets Called on OnReceive() //UI Thread
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -36,24 +35,6 @@ public class TodayWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
         if (MainActivity.ACTION_DATA_UPDATED.equals(intent.getAction())) {
             context.startService(new Intent(context, TodayWidgetIntentService.class));
-        }
-    }
-
-    public static class AlarmReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Log.d("AlarmReceiver", "Alarm Ready");
-            Log.e("AlarmReceiver", "Alarm Ready");
-
-
-            Intent broadcastIntent = new Intent(MainActivity.ACTION_DATA_UPDATED)
-                    .setPackage(context.getPackageName());
-
-            context.sendBroadcast(broadcastIntent);
-
-
         }
     }
 

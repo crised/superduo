@@ -27,10 +27,7 @@ import barqsoft.footballscores.widget.TodayWidgetProvider;
  */
 public class TodayWidgetIntentService extends IntentService {
 
-    public static final String ACTION_DATA_UPDATED =
-            "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
-    private static final String LOG_TAG = "TodayService";
     private static final String EMPTY_CELL = "-1";
 
     private static final String[] PROJECTION_COLUMNS = {

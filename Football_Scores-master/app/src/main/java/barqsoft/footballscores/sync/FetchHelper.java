@@ -1,9 +1,7 @@
-package barqsoft.footballscores.service;
+package barqsoft.footballscores.sync;
 
-import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
@@ -26,21 +24,21 @@ import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.R;
 
 /**
- * Created by yehya khaled on 3/2/2015.
+ * Created by crised on 30-10-15.
  */
-public class FetchService extends IntentService {
-    public static final String LOG_TAG = "FetchService";
+public class FetchHelper {
 
-    public FetchService() {
-        super("FetchService");
-    }
+    public static final String LOG_TAG = FetchHelper.class.getSimpleName();
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
+
+    private Context mContext;
+
+    public FetchHelper(Context context) {
+        mContext = context;
         getData(getString(R.string.fetch_service_n2));
         getData(getString(R.string.fetch_service_p2));
-        return;
     }
+
 
     private void getData(String timeFrame) {
         //Creating fetch URL
@@ -105,12 +103,12 @@ public class FetchService extends IntentService {
                 if (matches.length() == 0) {
                     //if there is no data, call the function on dummy data
                     //this is expected behavior during the off season.
-                    processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+                    processJSONdata(getString(R.string.dummy_data), false);
                     return;
                 }
 
 
-                processJSONdata(JSON_data, getApplicationContext(), true);
+                processJSONdata(JSON_data, true);
             } else {
                 //Could not Connect
                 Log.d(LOG_TAG, "Could not connect to server.");
@@ -120,7 +118,7 @@ public class FetchService extends IntentService {
         }
     }
 
-    private void processJSONdata(String JSONdata, Context mContext, boolean isReal) {
+    private void processJSONdata(String JSONdata, boolean isReal) {
         //JSON data
         // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
         // be updated. Feel free to use the codes
@@ -220,10 +218,16 @@ public class FetchService extends IntentService {
             mContext.getContentResolver().bulkInsert(
                     DatabaseContract.BASE_CONTENT_URI, insert_data);
 
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage());
         }
 
     }
-}
 
+    private String getString(int num) {
+        return mContext.getString(num);
+
+
+    }
+}
