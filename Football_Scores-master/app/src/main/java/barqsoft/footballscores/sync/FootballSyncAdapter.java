@@ -6,11 +6,13 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 
+import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
 
 /**
@@ -31,7 +33,14 @@ public class FootballSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
+        //Performs BulkInsert
         new FetchHelper(getContext());
+        //Updates Widget
+
+        Intent broadcastIntent = new Intent(MainActivity.ACTION_DATA_UPDATED)
+                .setPackage(getContext().getPackageName());
+        getContext().sendBroadcast(broadcastIntent);
+
 
     }
 
