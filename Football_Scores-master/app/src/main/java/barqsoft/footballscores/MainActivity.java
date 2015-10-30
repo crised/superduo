@@ -2,16 +2,17 @@ package barqsoft.footballscores;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import barqsoft.footballscores.widget.TodayWidgetIntentService;
+import barqsoft.footballscores.widget.TodayWidgetProvider;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -89,10 +90,10 @@ public class MainActivity extends ActionBarActivity {
     private void registerAlarm() {
 
         Log.d("Main", "registering");
-        final Intent alarmIntent = new Intent(this, TodayWidgetIntentService.AlarmReceiver.class);
-        alarmIntent.putExtra("lol", true);
+        final Intent alarmIntent = new Intent(this, TodayWidgetProvider.AlarmReceiver.class);
+        alarmIntent.setAction(ACTION_DATA_UPDATED);
         final PendingIntent pending = PendingIntent.getService(this, 0, alarmIntent, 0);
-        AlarmManager am=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         long interval = 1000 * 60;
         //alarm.cancel(pending);
         // alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, interval, interval, pending);

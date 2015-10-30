@@ -3,6 +3,7 @@
     package="barqsoft.footballscores"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <uses-permission
         android:name="android.permission.INTERNET"
         android:maxSdkVersion="22"/>
@@ -50,7 +51,9 @@
         </receiver>
         <service android:name=".widget.TodayWidgetIntentService"/>
         <receiver
-            android:name=".widget.TodayWidgetIntentService$AlarmReceiver"
-            android:enabled="true"/>
+            android:name=".widget.TodayWidgetProvider$AlarmReceiver"
+            android:enabled="true"
+            android:process=":remote"/>
+
     </application>
 </manifest>

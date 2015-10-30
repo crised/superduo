@@ -20,6 +20,7 @@ import java.util.Date;
 import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.widget.TodayWidgetProvider;
 
 /**
  * Created by crised on 30-10-15.
@@ -125,22 +126,5 @@ public class TodayWidgetIntentService extends IntentService {
 
     }
 
-    public static class AlarmReceiver extends BroadcastReceiver {
 
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Log.d("AlarmReceiver", "Alarm Ready");
-            Log.e("AlarmReceiver", "Alarm Ready");
-
-
-            Intent broadcastIntent = new Intent(ACTION_DATA_UPDATED)
-                    .setPackage(context.getPackageName());
-
-            context.sendBroadcast(broadcastIntent);
-
-
-        }
-    }
 }
