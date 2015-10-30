@@ -13,6 +13,9 @@ public class MainActivity extends ActionBarActivity {
 
     private PagerFragment mPagerFragment;
 
+    public static final String ACTION_DATA_UPDATED =
+            "barqsoft.footballscores.ACTION_DATA_UPDATED";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, mPagerFragment)
                     .commit();
         }
+        sendBroadcast();
     }
 
 
@@ -69,5 +73,14 @@ public class MainActivity extends ActionBarActivity {
         mPagerFragment = (PagerFragment) getSupportFragmentManager()
                 .getFragment(savedInstanceState, getString(R.string.main_activity_pager));
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    private void sendBroadcast() {
+
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(this.getPackageName());
+        this.sendBroadcast(dataUpdatedIntent);
+
     }
 }
