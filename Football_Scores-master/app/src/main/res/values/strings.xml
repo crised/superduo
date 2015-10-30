@@ -109,5 +109,21 @@
 
     <string name="view_pager">swipe right to view future matches, swipe left to view previous matches</string>
 
+    <!--Utilities -->
+    <string name="uti_seria_a">Seria A</string>
+    <string name="uti_premier_league">Premier League</string>
+    <string name="uti_uefa">UEFA Champions League</string>
+    <string name="uti_primera">Primera Division</string>
+    <string name="uti_bundes">Bundesiga</string>
+    <string name="uti_unk">Not known League Please report</string>
+
+    <string name="uti_md_group">Group Stages, Matchday : 6</string>
+    <string name="uti_md_knock">First Knockout round</string>
+    <string name="uti_md_quarter">Quarter Final</string>
+    <string name="uti_md_semi">SemiFinal</string>
+    <string name="uti_md_final">Final</string>
+    <string name="uti_md_match_day">Matchday : </string>
+
+
 
 </resources>

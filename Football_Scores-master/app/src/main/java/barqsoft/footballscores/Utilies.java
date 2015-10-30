@@ -1,5 +1,7 @@
 package barqsoft.footballscores;
 
+import android.content.res.Resources;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
@@ -13,38 +15,41 @@ public class Utilies {
 
 
     public static String getLeague(int league_num) {
+        Resources res = Resources.getSystem();
+
         switch (league_num) {
             case SERIE_A:
-                return "Seria A";
+                return res.getString(R.string.uti_seria_a);
             case PREMIER_LEAGUE:
-                return "Premier League";
+                return res.getString(R.string.uti_premier_league);
             case CHAMPIONS_LEAGUE:
-                return "UEFA Champions League";
+                return res.getString(R.string.uti_uefa);
             case PRIMERA_DIVISION:
-                return "Primera Division";
+                return res.getString(R.string.uti_primera);
             case BUNDESLIGA:
-                return "Bundesliga";
+                return res.getString(R.string.uti_bundes);
             default:
-                return "Not known League Please report";
+                return res.getString(R.string.uti_unk);
         }
     }
 
     public static String getMatchDay(int match_day, int league_num) {
+        Resources res = Resources.getSystem();
+
         if (league_num == CHAMPIONS_LEAGUE) {
-            //TODO Fix this Magic Numbers!
             if (match_day <= 6) {
-                return "Group Stages, Matchday : 6";
+                return res.getString(R.string.uti_md_group);
             } else if (match_day == 7 || match_day == 8) {
-                return "First Knockout round";
+                return res.getString(R.string.uti_md_knock);
             } else if (match_day == 9 || match_day == 10) {
-                return "QuarterFinal";
+                return res.getString(R.string.uti_md_quarter);
             } else if (match_day == 11 || match_day == 12) {
-                return "SemiFinal";
+                return res.getString(R.string.uti_md_semi);
             } else {
-                return "Final";
+                return res.getString(R.string.uti_md_final);
             }
         } else {
-            return "Matchday : " + String.valueOf(match_day);
+            return res.getString(R.string.uti_md_match_day) + String.valueOf(match_day);
         }
     }
 
