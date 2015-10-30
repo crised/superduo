@@ -44,6 +44,7 @@
             android:layout_gravity="center"
             android:contentDescription="@string/detail_cd_share"
             android:drawableLeft="@android:drawable/ic_menu_share"
+            android:drawableStart="@android:drawable/ic_menu_share"
             android:gravity="center"
             android:paddingEnd="120dp"
             android:paddingLeft="120dp"
