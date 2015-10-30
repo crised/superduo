@@ -8,15 +8,15 @@ import android.provider.BaseColumns;
  * Created by yehya khaled on 2/25/2015.
  */
 public class DatabaseContract {
-    public static final String SCORES_TABLE = "scores_table";
+    public static final String SCORES_TABLE = "ScoresTable";
 
-    public static final class scores_table implements BaseColumns {
+    public static final class ScoresTable implements BaseColumns {
         //Table data
-        public static final String LEAGUE_COL = "league";
         public static final String DATE_COL = "date";
         public static final String TIME_COL = "time";
         public static final String HOME_COL = "home";
         public static final String AWAY_COL = "away";
+        public static final String LEAGUE_COL = "league";
         public static final String HOME_GOALS_COL = "home_goals";
         public static final String AWAY_GOALS_COL = "away_goals";
         public static final String MATCH_ID = "match_id";

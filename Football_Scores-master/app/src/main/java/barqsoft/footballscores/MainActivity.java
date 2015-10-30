@@ -1,10 +1,16 @@
 package barqsoft.footballscores;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import barqsoft.footballscores.widget.TodayWidgetIntentService;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -16,6 +22,9 @@ public class MainActivity extends ActionBarActivity {
     public static final String ACTION_DATA_UPDATED =
             "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +35,12 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, mPagerFragment)
                     .commit();
         }
-        sendBroadcast();
+
+        registerAlarm();
+
+
+
+
     }
 
 
@@ -75,12 +89,15 @@ public class MainActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    private void sendBroadcast() {
+    private void registerAlarm(){
 
-        // Setting the package ensures that only components in our app will receive the broadcast
-        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
-                .setPackage(this.getPackageName());
-        this.sendBroadcast(dataUpdatedIntent);
-
+        final Intent alarmIntent = new Intent(this, TodayWidgetIntentService.AlarmReceiver.class);
+        final PendingIntent pending = PendingIntent.getService(this, 0, alarmIntent, 0);
+        final AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        long interval = 10;///1000*60;
+        //alarm.cancel(pending);
+        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, interval, interval, pending);
     }
+
+
 }
