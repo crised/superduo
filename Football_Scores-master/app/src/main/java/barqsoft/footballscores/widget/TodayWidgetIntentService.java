@@ -125,13 +125,14 @@ public class TodayWidgetIntentService extends IntentService {
 
     }
 
-    static public class AlarmReceiver extends BroadcastReceiver {
+    public static class AlarmReceiver extends BroadcastReceiver {
 
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
             Log.d("AlarmReceiver", "Alarm Ready");
+            Log.e("AlarmReceiver", "Alarm Ready");
 
 
             Intent broadcastIntent = new Intent(ACTION_DATA_UPDATED)

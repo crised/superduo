@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -23,8 +24,6 @@ public class MainActivity extends ActionBarActivity {
             "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +36,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         registerAlarm();
-
-
 
 
     }
@@ -89,14 +86,20 @@ public class MainActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    private void registerAlarm(){
+    private void registerAlarm() {
 
+        Log.d("Main", "registering");
         final Intent alarmIntent = new Intent(this, TodayWidgetIntentService.AlarmReceiver.class);
+        alarmIntent.putExtra("lol", true);
         final PendingIntent pending = PendingIntent.getService(this, 0, alarmIntent, 0);
-        final AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        long interval = 10;///1000*60;
+        AlarmManager am=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        long interval = 1000 * 60;
         //alarm.cancel(pending);
-        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, interval, interval, pending);
+        // alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, interval, interval, pending);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pending);
+        Log.d("Main", "registering finished");
+
+
     }
 
 

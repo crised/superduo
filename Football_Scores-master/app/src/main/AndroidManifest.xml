@@ -49,6 +49,8 @@
                 android:resource="@xml/widget_info_today"/>
         </receiver>
         <service android:name=".widget.TodayWidgetIntentService"/>
-        <receiver android:name=".widget.TodayWidgetIntentService$AlarmReceiver"/>
+        <receiver
+            android:name=".widget.TodayWidgetIntentService$AlarmReceiver"
+            android:enabled="true"/>
     </application>
 </manifest>
